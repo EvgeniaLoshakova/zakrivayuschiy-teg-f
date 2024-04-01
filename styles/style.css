@@ -245,7 +245,6 @@
   transition: border-color 0.3s ease;
   cursor: pointer;
   height: 38px;
-  transition: 0.3s ease;
 }
 
 .card__icon-button:focus {
