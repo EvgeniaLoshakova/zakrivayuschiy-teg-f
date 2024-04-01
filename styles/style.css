@@ -18,15 +18,17 @@
   min-inline-size: 320px;
   min-block-size: 100dvb;
   font-family: var(--main-font);
-  font-variation-settings: "wght" 400;
+  font-variation-settings: "wght" var(--font-weight-regular);
   color: var(--accent-color);
   background-image: var(--bg-image);
+  background-color: var(--bg-color);
   background-size: cover;
   background-attachment: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow-x: hidden;
 }
 
 .header {
@@ -47,6 +49,10 @@
   margin-block-start: clamp(7.5rem, 6.346rem + 4.923vw, 8.5rem);
   font-size: clamp(3.063rem, 1.909rem + 4.923vw, 4.063rem);
   line-height: clamp(3.063rem, 1.909rem + 4.923vw, 4.063rem);
+}
+
+.title:focus {
+  outline: none;
 }
 
 .title-2 {
@@ -70,16 +76,15 @@
   cursor: none;
   text-transform: uppercase;
   background-color: inherit;
+  transition: opacity 0.3s ease;
 }
 
 .theme-menu__button:disabled {
-  transition: opacity 0.3s ease;
   opacity: 0.6;
   pointer-events: none;
 }
 
 .theme-menu__button:hover {
-  transition: opacity 0.3s ease;
   opacity: 0.6;
   cursor: pointer;
 }
@@ -90,7 +95,6 @@
 
 .theme-menu__button:focus-visible {
   opacity: 0.6;
-  transition: opacity 0.3s ease;
 }
 
 .theme-menu__button::after {
@@ -106,7 +110,7 @@
   width: 100%;
   opacity: 0.6;
   background-color: var(--accent-color);
-  transition: width 300ms, opacity 0.3s ease;
+  transition: width 300ms;
 }
 
 .theme-menu__button:disabled::before {
@@ -117,24 +121,9 @@
   height: 14px;
   margin-left: -22px;
   margin-top: -2px;
-  -webkit-animation: arrow 1s infinite linear;
-  animation: arrow 0.5s infinite linear ease-in-out;
-}
-
-.card__like-button:hover,
-.save-button:hover {
-  cursor: pointer;
-}
-
-.card__like-button:focus,
-.save-button:focus {
-  outline: none;
-}
-
-.card__like-button:focus-visible,
-.save-button:focus-visible {
-  box-shadow: 2px 2px 0 var(--accent-color);
-  transition: box-shadow 0.3s ease;
+  /* тут указан top и left, не понимаю, как нужно это исправить */
+  -webkit-animation: arrow 0.5s infinite alternate ease-in-out;
+  animation: arrow 0.5s infinite alternate ease-in-out;
 }
 
 .content {
@@ -201,31 +190,31 @@
   border-bottom: 2px solid var(--accent-color);
 }
 
-.image-2 {
+.filter-brightness {
   filter: brightness(200%);
 }
 
-.image-3 {
+.filter-contrast {
   filter: contrast(20%);
 }
 
-.image-4 {
+.filter-blur {
   filter: blur(0.5rem);
 }
 
-.image-5 {
+.filter-opacity {
   filter: opacity(0.5);
 }
 
-.image-6 {
+.filter-sat-sepia-blur {
   filter: saturate(158%) sepia(55%) blur(0.2rem);
 }
 
-.image-7 {
+.filter-sepia {
   filter: sepia(80%);
 }
 
-.image-8 {
+.filter-invert {
   filter: invert(0.7);
 }
 
@@ -256,6 +245,7 @@
   transition: border-color 0.3s ease;
   cursor: pointer;
   height: 38px;
+  transition: 0.3s ease;
 }
 
 .card__icon-button:focus {
@@ -264,35 +254,61 @@
 
 .card__icon-button:focus-visible {
   border: 2px solid var(--accent-color);
-  transition: 0.3s ease;
+}
+
+.button {
+  position: relative;
+  z-index: 1;
+  border: 2px solid var(--accent-color);
+  background-color: var(--bg-color);
+  transition: 0.5s ease-in-out;
+  cursor: pointer;
+  color: var(--accent-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .card__like-button {
-  background-color: var(--bg-color);
-  color: var(--accent-color);
   padding: 12.5px;
   width: 130px;
   height: 38px;
   margin-block-start: -2px;
-  align-self: end;
-  border: 2px solid var(--accent-color);
-  position: relative;
-  z-index: 1;
-  transition: 0.5s ease-in-out;
+}
+
+.save-button {
+  width: clamp(19.125rem, 17.034rem + 8.923vw, 20.938rem);
+  margin-block-start: clamp(3.25rem, 3.394rem + -0.615vw, 3.125rem);
+  margin-block-end: clamp(6.375rem, 6.303rem + 0.308vw, 6.438rem);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .like-icon {
   fill: var(--accent-color);
 }
 
-.card__like-button:hover,
-.save-button:hover {
+.button:hover,
+.modal-button:hover {
   color: var(--like-hover-color);
-  transition: 0.5s ease-in-out;
+  transition: 0.3s ease;
+  cursor: pointer;
 }
 
-.card__like-button::before,
-.save-button::before {
+.button:focus,
+.modal-button:focus {
+  outline: none;
+}
+
+.button:focus-visible,
+.modal-button:focus-visible {
+  box-shadow: 2px 2px 0 var(--accent-color);
+  transition: box-shadow 0.3s ease;
+}
+
+.button::before {
   content: "";
   display: block;
   background-color: var(--accent-color);
@@ -305,8 +321,7 @@
   transition: 0.5s ease-in-out;
 }
 
-.card__like-button:hover::before,
-.save-button:hover::before {
+.button:hover::before {
   width: 100%;
 }
 
@@ -322,24 +337,6 @@
   line-height: 90%;
 }
 
-.save-button {
-  width: clamp(19.125rem, 17.034rem + 8.923vw, 20.938rem);
-  color: inherit;
-  background-color: var(--bg-color);
-  margin-block-start: clamp(3.25rem, 3.394rem + -0.615vw, 3.125rem);
-  margin-block-end: clamp(6.375rem, 6.303rem + 0.308vw, 6.438rem);
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid var(--accent-color);
-  position: relative;
-  transition: 0.5s ease-in-out;
-  z-index: 1;
-}
-
 .save-button-icon {
   flex-shrink: 0;
   width: 28px;
@@ -350,10 +347,12 @@
   padding: 30px 40px;
   width: clamp(21.313rem, 20.159rem + 4.923vw, 22.313rem);
   min-width: 341px;
-  height: 191px;
-  border: 2px solid black;
+  min-height: 191px;
+  border: 2px solid var(--accent-color);
   overflow: hidden;
   margin: auto;
+  color: var(--accent-color);
+  background-color: var(--bg-color);
 }
 
 .modal-window[open] {
@@ -380,17 +379,18 @@
 .modal-text {
   font-family: var(--accent-font);
   font-size: 14px;
-  font-variation-settings: "wght" var(--font-weight-regular);
   text-transform: uppercase;
   line-height: 21px;
 }
 
 .modal-button {
   padding: 9px 17px;
-  border: 2px solid #000;
+  border: 2px solid var(--accent-color);
   margin-block-start: 30px;
   width: 100%;
   height: 38px;
+  background-color: var(--bg-color);
+  color: var(--accent-color);
 }
 
 @media (min-width: 376px) {
